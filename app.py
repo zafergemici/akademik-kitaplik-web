@@ -22,22 +22,31 @@ if not st.session_state.logged_in:
     with st.form("login"):
         email = st.text_input("E-posta")
         password = st.text_input("Şifre", type="password")
+        
         submit = st.form_submit_button("Giriş yap", use_container_width=True)
+
     if submit:
         try:
-            response = sb.auth.sign_in_with_password({"email": email.strip(), "password": password})
+            response = sb.auth.sign_in_with_password({
+                "email": email.strip(),
+                "password": password
+            })
+
             if response.user and response.session:
                 st.session_state.logged_in = True
                 st.rerun()
             else:
                 st.error("Giriş yapılamadı.")
-                except Exception as e:
+
+        except Exception as e:
             st.error(f"Giriş hatası: {type(e).__name__}")
             st.code(str(e))
+
     st.stop()
 
 try:
     user_response = sb.auth.get_user()
+
     if not user_response.user:
         raise ValueError("Oturum bulunamadı")
 except Exception:
