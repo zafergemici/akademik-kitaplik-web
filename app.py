@@ -53,8 +53,9 @@ if not st.session_state.logged_in:
             else:
                 st.error("Giriş yapılamadı.")
 
-        except Exception:
-            st.error("Giriş başarısız. Bilgilerinizi kontrol edin.")
+                except Exception as e:
+            st.error(f"Giriş hatası: {type(e).__name__}")
+            st.code(str(e))
 
     st.stop()
 
